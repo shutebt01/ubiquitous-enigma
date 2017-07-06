@@ -24,5 +24,8 @@ class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
     Stolen from https://stackoverflow.com/questions/14088294/multithreaded-web-server-in-python (THANKS BTW)
     """
 
-class 
+class IncomingHandler(BaseHTTPRequestHandler):
+    pass
 
+if __name__ == "__main__":
+    pass
