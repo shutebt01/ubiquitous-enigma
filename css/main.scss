@@ -1,9 +1,41 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans|Roboto');
 
+$colour-background:#cce6ff
+$colour-trim:#80c1ff
+$colour-text:#001a33
+
+html {
+
+}
+
 body {
     font-family: 'Open Sans', sans-serif;
+    color: $colour-text;
+    background: $colour-background;
 }
 
 h1, h2, h3, h4, h5 {
     font-family: 'Roboto', sans-serif;
 }
+
+header {
+    border-color: $colour-trim;
+    border-radius: 2em;
+    border-width: 0.25em;
+    border-style: solid;
+    margin: 1em;
+    padding: 0.5em;
+}
+
+.header-elm {
+    display: inline;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+

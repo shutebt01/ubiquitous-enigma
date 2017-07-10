@@ -5,6 +5,7 @@ import requests, zipfile, os, os.path
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from socketserver import ThreadingMixIn
 from scss import parser
+from urllib.parse import urlparse
 
 debug=True
 
@@ -83,7 +84,8 @@ class IncomingHandler(BaseHTTPRequestHandler):
         self.wfile.write(data.encode())
 
     def do_GET(self):
-        truePath = getLocation(self.path)
+        url = urlparse(self.path)
+        truePath = getLocation(url.path)
         if truePath.lower().endswith("scss"):
             css = compileSCSS(truePath)
             self.returnData(css, "text/css")
