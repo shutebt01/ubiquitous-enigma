@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+
+$colour-brc: #004d1a
+$colour-kwd: #00802b
+$colour-bg: #ccffdd
+
+.tex-box {
+    background: $colour-bg;
+    display: inline;
+}
+
+.tex {
+    font-family: 'Roboto Mono', monospace;
+    display: inline;
+}
+
+.tex-kwd {
+    color: $colour-kwd;
+}
+
+.tex-brc {
+    color: $colour-brc;
+}

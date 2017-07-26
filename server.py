@@ -1,7 +1,7 @@
 #! /bin/python3
 from sympy import *
 import sympy.plotting as plotting
-import requests, zipfile, os, os.path
+import requests, zipfile, os, os.path, json, urllib, urllib.parse, importlib
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from socketserver import ThreadingMixIn
 from scss import parser
@@ -33,7 +33,10 @@ locCache = dict()
 def getLocation(name):
         global locCache
         # Intention is to flatten out structure, but to allow for file differentiation
-        rootdir = name.split("/")[1]
+        rootdir = name.split("/")
+        if len(rootdir) <= 1:
+            return None
+        rootdir = rootdir[1]
         if rootdir in ["css", "dynamic", "lib", "static"]:
             # Direct pointer to file
             return name
@@ -56,13 +59,15 @@ def getLocation(name):
                 return None
 
 def compileSCSS(filename):
-    return parser.load(filename)
+    p = parser.Stylesheet( options=dict( compress=True, cache=True ) )
+    #return parser.load(filename)
+    return p.load(filename)
 
 class IncomingHandler(BaseHTTPRequestHandler):
 
-    def returnFile(self, filename, mime=None):
+    def returnFile(self, filename, mime=None, code=200):
         if os.path.isfile(filename):
-            self.send_response(200, "OK")
+            self.send_response(code, "OK")
             if debug:
                 self.send_header("Dev-Test", "File Path: {}".format(filename))
             if mime:
@@ -75,24 +80,92 @@ class IncomingHandler(BaseHTTPRequestHandler):
             self.send_error(404, "Not File", "The file you requested was a directory")
             self.end_headers()
 
-    def returnData(self, data, mime=None):
-        self.send_response(200, "OK")
+    def returnData(self, data, mime=None, code=200):
+        self.send_response(code, "OK")
         if mime:
-            print(mime)
             self.send_header("Content-Type", mime)
         self.end_headers()
         self.wfile.write(data.encode())
 
-    def do_GET(self):
+    def handleDynamicCode(self):
+        #get arguments
+        arguments = dict()
+
+        #From URL
         url = urlparse(self.path)
-        truePath = getLocation(url.path)
+        qsplit = url.query.split("&")
+        for i in qsplit:
+            if "=" in i:
+                spli = i.split("=")
+                arguments[spli[0]] = spli[1]
+            else:
+                self.log_message("Unable to parse query param: {}", i)
+
+        #From POST/PUT data:
+        if self.command in ["PUT", "POST"]:
+            if self.headers["Content-Type"] in ["text/json", "application/json"]:
+                data = self.rfile.read(int(self.headers["Content-Length"]))
+                data = data.decode()
+                data = json.loads(data)
+                arguments.update(data)
+
+        #Decode any encoded arguments
+        decode = dict()
+        for key in arguments.keys():
+            decode[urllib.parse.unquote(key)] = urllib.parse.unquote(arguments[key])
+        arguments = decode
+
+        #Call Func
+        if "fun" in arguments:
+            try:
+                tgt = importlib.import_module("dynamic" + url.path[:-3].replace("/","."))
+                function = getattr(tgt, arguments["fun"])
+                del arguments["fun"]
+                response = function(**arguments)
+                self.returnData(response[1], mime=response[0], code=(response[2] if len(response) >= 3 else 200))
+            except Exception as e:
+                print(e)
+                self.send_error(500, "Internal Server Error", "Internal server error")
+                self.end_headers()
+        #print(url)
+
+        pass
+
+    def resolvePath(self):
+        """
+        Gets the path from the url, and returns the resolved full path
+
+        Invalid path handling (READ: 404) is put in here
+        """
+        pass
+
+    def processRequest(self):
+        url = urlparse(self.path)
+        tgtpath = url.path
+        if tgtpath.endswith("/"):
+            tgtpath += "index.html"
+        truePath = getLocation(tgtpath)
+        if truePath == None:
+            # Return 404 Error
+            self.returnFile(getLocation("/404.html"), code=404)
+            return
+        elif truePath.startswith("dynamic"):
+            #literally just a check to ensure no unintentional Remote execution
+            self.handleDynamicCode()
+            return
+        elif not os.path.isfile(truePath):
+            truePath += "/index.html"
         if truePath.lower().endswith("scss"):
             css = compileSCSS(truePath)
             self.returnData(css, "text/css")
         else:
             self.returnFile(truePath)
 
+    def do_GET(self):
+        self.processRequest()
 
+    def do_POST(self):
+        self.processRequest()
 
 
 if __name__ == "__main__":

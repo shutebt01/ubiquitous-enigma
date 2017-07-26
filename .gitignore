@@ -103,3 +103,5 @@ ENV/
 ##################
 /lib/font-awesome-4.7.0
 /lib/font-awesome-4.7.0.zi*
+/lib/MathJax-2.7.1
+/lib/MathJax-2.7.1.zi*

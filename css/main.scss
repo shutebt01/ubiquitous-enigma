@@ -14,13 +14,17 @@ body {
     background: $colour-background;
 }
 
+a:link, a:visited {
+    color: $colour-text;
+}
+
 h1, h2, h3, h4, h5 {
     font-family: 'Roboto', sans-serif;
 }
 
 header {
     border-color: $colour-trim;
-    border-radius: 2em;
+    border-radius: 1em;
     border-width: 0.25em;
     border-style: solid;
     margin: 1em;
@@ -39,3 +43,8 @@ header {
     float: right;
 }
 
+.centre {
+    text-align: center;
+    display: block;
+    margin: auto;
+}
