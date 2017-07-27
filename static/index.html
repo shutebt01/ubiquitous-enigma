@@ -1,21 +1,25 @@
 <html>
     <head>
         <title>Symbosite - Home</title>
-        <link rel="stylesheet" type="text/css" href="main.scss">
-        <link rel="stylesheet" type="text/css" href="tex.scss">
-        <link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="/main.scss">
+        <link rel="stylesheet" type="text/css" href="/font-awesome-4.7.0/css/font-awesome.min.css">
         <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
             tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
         });
         </script>
-        <script type="text/javascript" src="MathJax-2.7.1/MathJax.js?config=TeX-AMS_HTML-full"></script>
+        <script type="text/javascript" src="/MathJax-2.7.1/MathJax.js?config=TeX-AMS_HTML-full"></script>
     </head>
     <body>
         <header>
             <h2 class="header-elm">Symbosite</h2>
-            <div class="header-elm" style="padding-left:1em"></div>
-            <a class="header-elm" href="#">$\TeX$</a>
+            <div class="header-elm" style="padding-left:2em"></div>
+            <div class="header-elm header-dropdown">
+                <a href="/markup">Markup</a>
+                <div class="header-dropdown-content">
+                    <a href="/markup/tex.html">$\TeX$</a>
+                </div>
+            </div>
 
             <a class="header-elm float-right" href="https://github.com/shutebt01/ubiquitous-enigma"><i class="fa fa-github-alt fa-fw fa-2x" aria-hidden="true"></i><span class="sr-only">Github Link</span></a>
         </header>

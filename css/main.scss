@@ -35,6 +35,31 @@ header {
     display: inline;
 }
 
+.header-dropdown {
+    display: inline-block;
+    min-width: 100px;
+
+}
+
+.header-dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    min-width: 100px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding-top: 0.1em;
+    padding-bottom: 0.1em;
+}
+
+.header-dropdown:hover {
+    background: $colour-trim;
+}
+
+.header-dropdown:hover .header-dropdown-content {
+    background: $colour-trim;
+    display: block;
+}
+
 .float-left {
     float: left;
 }

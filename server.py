@@ -1,7 +1,7 @@
 #! /bin/python3
 from sympy import *
 import sympy.plotting as plotting
-import requests, zipfile, os, os.path, json, urllib, urllib.parse, importlib
+import requests, zipfile, os, os.path, json, urllib, urllib.parse, importlib, traceback
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from socketserver import ThreadingMixIn
 from scss import parser
@@ -99,7 +99,7 @@ class IncomingHandler(BaseHTTPRequestHandler):
                 spli = i.split("=")
                 arguments[spli[0]] = spli[1]
             else:
-                self.log_message("Unable to parse query param: {}", i)
+                self.log_message("Unable to parse query param: %s", i)
 
         #From POST/PUT data:
         if self.command in ["PUT", "POST"]:
@@ -119,14 +119,22 @@ class IncomingHandler(BaseHTTPRequestHandler):
         if "fun" in arguments:
             try:
                 tgt = importlib.import_module("dynamic" + url.path[:-3].replace("/","."))
+                importlib.reload(tgt)
                 function = getattr(tgt, arguments["fun"])
                 del arguments["fun"]
                 response = function(**arguments)
+                del function
+                del tgt
+                if isinstance(response, dict):
+                    self.returnData(response["data"], mime=response["datatype"], code=(response["code"] if "code" in response else 200))
                 self.returnData(response[1], mime=response[0], code=(response[2] if len(response) >= 3 else 200))
             except Exception as e:
-                print(e)
+                traceback.print_exc()
                 self.send_error(500, "Internal Server Error", "Internal server error")
                 self.end_headers()
+        else:
+            self.send_error(400, "No Method provided", "No Method provided")
+            self.end_headers()
         #print(url)
 
         pass
@@ -145,7 +153,7 @@ class IncomingHandler(BaseHTTPRequestHandler):
         if tgtpath.endswith("/"):
             tgtpath += "index.html"
         truePath = getLocation(tgtpath)
-        if truePath == None:
+        if truePath == None or any(x in truePath for x in ["__pycache__", ".gitkeep"]):
             # Return 404 Error
             self.returnFile(getLocation("/404.html"), code=404)
             return
@@ -163,11 +171,30 @@ class IncomingHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         self.processRequest()
+        if DEBUG:
+            if DEBUG_GC:
+                gc.collect()
+            if DEBUG_DUMP_MEM_USAGE:
+                print('Memory usage: %s (kb)' % resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
+            #pdb.set_trace()
+
 
     def do_POST(self):
         self.processRequest()
+        if DEBUG:
+            if DEBUG_GC:
+                gc.collect()
+            if DEBUG_DUMP_MEM_USAGE:
+                print('Memory usage: %s (kb)' % resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
 
 
 if __name__ == "__main__":
+    #DEBUGGING
+    DEBUG = True
+    if DEBUG:
+        DEBUG_GC=True
+        DEBUG_DUMP_MEM_USAGE=True
+        import gc, resource, pdb
+
     httpd = ThreadedHTTPServer((ip, port), IncomingHandler)
     httpd.serve_forever()

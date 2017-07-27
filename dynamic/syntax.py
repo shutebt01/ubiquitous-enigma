@@ -3,7 +3,7 @@ Standard dynamic code spec:
 
 args passed in kwargs from json
 
-return: (datatype {mime}, data {which will be jsonified to be returned}, [code {if not present: 200}])
+return: (datatype {mime}, data, [code {if not present: 200}])
 """
 
 def highlight(*args, **kwargs):
