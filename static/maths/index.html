@@ -1,7 +1,9 @@
 <html>
     <head>
-        <title>Symbosite - Tex</title>
+        <title>Symbosite - Maths</title>
         <link rel="stylesheet" type="text/css" href="/main.scss">
+        <script type="text/javascript" src="/syntax.js"></script>
+        <!-- Other stuff -->
         <link rel="stylesheet" type="text/css" href="/font-awesome-4.7.0/css/font-awesome.min.css">
         <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
@@ -30,41 +32,26 @@
             <a class="header-elm float-right" href="https://github.com/shutebt01/ubiquitous-enigma"><i class="fa fa-github-alt fa-fw fa-2x" aria-hidden="true"></i><span class="sr-only">Github Link</span></a>
         </header>
         <div class="body">
-            <h2>TeX</h2>
-            <h3>Tl;Dr</h3>
+            <h2>Basic maths stuff</h2>
+            <h3>Syntax</h3>
             <p>
-                Tex is a language in which text is formatted with functions begining with a `\`. LaTeX is an extention adding maths functions.
-                Links: <a href="#examples">To Examples</a>
-            </p>
-            <h3>What is TeX</h3>
-            <p>
-                <q>TeX is a typesetting system designed and mostly written by Donald Knuth and released in 1978.</q>  - <a href="https://en.wikipedia.org/wiki/TeX">Wikipedia</a>
-                <br><br>
-                This is a pretty good sumary of what tex is. While the wikipedia article will go into far more detail
-                the function of TeX can be sumarised as follows
+                If you haven't seen the page on our syntax (or if it doesn't exist) then heres a
+                quick rundown:
                 <ul>
-                    <li>Text input is processed as text</li>
-                    <li>Functions start with a <pre class="inline">\</pre></li>
-                    <li>These functions are used to alter the output</li>
-                    <li>New functions can be defined</li>
+                    <li>
+                        <pre class="inline">^</pre> or <pre class="inline">**</pre> - Means To the power of - Example: <pre class="inline">x^2</pre>
+                    </li>
+                    <li>
+                        <pre class="inline">cos(x)</pre>, <pre class="inline">sin(x)</pre> etc. - Trig functions. - Example: <pre class="inline">cos(x)/sin(x)</pre>
+                    </li>
+                    <li>
+                        <pre class="inline">sqrt(x)</pre>, <pre class="inline">cbrt(x)</pre> and <pre class="inline">root(x,n)</pre> - Square root x, Cube Root x, or n Root x - Example: <pre class="inline">root(x^2, 5)</pre>
+                    </li>
                 </ul>
-                TeX on its own is very usefull, but is far more usfull when used in conjunction with stuff
-                others have already done. Hence enter:
+                Can someone remind me to add more examples here later (I thought adding
+                an actuall interface would be good). Thanks (jediminer543)
             </p>
-            <h3>LaTeX</h3>
-            <p>
-                Latex is command set for TeX that adds more commands, and is very usefull for maths,
-                including things such as square roots <pre>\sqrt{x}</pre> and fractions <pre>\frac{x}{y}</pre>.
-
-                If you are curious about the full feature set <a href="https://en.wikibooks.org/wiki/LaTeX/Mathematics">Here is a good wikibook</a> including a
-                large number of examples. But now onto our own examples which will be far more compresed.
-            </p>
-            <a name="examples"></a><h3>Examples</h3>
-            <h4>Basic examples</h4>
-            <table>
-
-            </table>
-        </div>
+         </div>
         <footer>
             Made with <i class="fa fa-heart-o fa-fw" aria-hidden="true"></i> and <i class="fa fa-keyboard-o" aria-hidden="true"></i> by shutebt01 and jediminer543
             (and the help of <i class="fa fa-stack-overflow" aria-hidden="true"></i>). Powered by pure awesome Python server. FLOSS'd under the LGPL.

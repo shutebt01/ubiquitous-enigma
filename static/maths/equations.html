@@ -1,0 +1,78 @@
+<html>
+    <head>
+        <title>Symbosite - Maths</title>
+        <link rel="stylesheet" type="text/css" href="/main.scss">
+        <script type="text/javascript" src="/syntax.js"></script>
+        <script type="text/javascript" src="/maths.js"></script>
+        <!-- Other stuff -->
+        <link rel="stylesheet" type="text/css" href="/font-awesome-4.7.0/css/font-awesome.min.css">
+        <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
+        });
+        </script>
+        <script type="text/javascript" src="/MathJax-2.7.1/MathJax.js?config=TeX-AMS_HTML-full"></script>
+    </head>
+    <body>
+        <header>
+            <h2 class="header-elm"><a href="/">Symbosite</a></h2>
+            <div class="header-elm" style="padding-left:2em"></div>
+            <div class="header-elm header-dropdown">
+                <h4><a href="/markup">Markup</a></h4>
+                <div class="header-dropdown-content">
+                    <h5><a href="/markup/tex.html">$\TeX$</a></h5>
+                </div>
+            </div>
+            <div class="header-elm header-dropdown">
+               <h4> <a href="/about">About</a></h4>
+                <div class="header-dropdown-content">
+                    <h5><a href="/about/libraries.html">Libraries</a></h5>
+                </div>
+            </div>
+
+            <a class="header-elm float-right" href="https://github.com/shutebt01/ubiquitous-enigma"><i class="fa fa-github-alt fa-fw fa-2x" aria-hidden="true"></i><span class="sr-only">Github Link</span></a>
+        </header>
+        <div class="body">
+            <h2>WARNING: TEMPORARY STUFF HERE</h2>
+            Solving: <input id="equin"></input><br>
+            Which equates to <div id="equpreview" class="inline">${}$</div><br>
+            For symbols: <input id="valin"></input><br>
+            <button id="equbutt">Solve</button><br>
+            <div id="output">The answer you provided is: ${}$.</div>
+            <script type="text/javascript">
+                /* global MathJax toLatex solve */
+                //This is how the magic works. Wizardry isn't it.
+                var equin = document.getElementById("equin");
+                var valin = document.getElementById("valin");
+                var equbutt = document.getElementById("equbutt");
+                var math = null;
+                var preview = null;
+                MathJax.Hub.Queue(function () {
+                    math = MathJax.Hub.getAllJax("output")[0];
+                });
+                MathJax.Hub.Queue(function () {
+                    preview = MathJax.Hub.getAllJax("equpreview")[0];
+                });
+                equbutt.onclick = function() {
+                    solve(equin.value, valin.value, function(xhr) {
+                        //output.innerHTML = xhr.response;
+                        toLatex(xhr.response, function(xhr){
+                           MathJax.Hub.Queue(["Text",math,xhr.response]);
+                        });
+                    });
+                }
+                equin.onchange = function() {
+                    toLatex(equin.value, function(xhr){
+                        console.log("Response type: " + xhr.responseType);
+                        MathJax.Hub.Queue(["Text",preview,xhr.response]);
+                    });
+                }
+
+            </script>
+         </div>
+        <footer>
+            Made with <i class="fa fa-heart-o fa-fw" aria-hidden="true"></i> and <i class="fa fa-keyboard-o" aria-hidden="true"></i> by shutebt01 and jediminer543
+            (and the help of <i class="fa fa-stack-overflow" aria-hidden="true"></i>). Powered by pure awesome Python server. FLOSS'd under the LGPL.
+        </footer>
+    </body>
+</html>

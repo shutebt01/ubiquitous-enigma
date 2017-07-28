@@ -12,19 +12,25 @@
     </head>
     <body>
         <header>
-            <h2 class="header-elm">Symbosite</h2>
+            <h2 class="header-elm"><a href="/">Symbosite</a></h2>
             <div class="header-elm" style="padding-left:2em"></div>
             <div class="header-elm header-dropdown">
-                <a href="/markup">Markup</a>
+                <h4><a href="/markup">Markup</a></h4>
                 <div class="header-dropdown-content">
-                    <a href="/markup/tex.html">$\TeX$</a>
+                    <h5><a href="/markup/tex.html">$\TeX$</a></h5>
+                </div>
+            </div>
+            <div class="header-elm header-dropdown">
+               <h4> <a href="/about">About</a></h4>
+                <div class="header-dropdown-content">
+                    <h5><a href="/about/libraries.html">Libraries</a></h5>
                 </div>
             </div>
 
             <a class="header-elm float-right" href="https://github.com/shutebt01/ubiquitous-enigma"><i class="fa fa-github-alt fa-fw fa-2x" aria-hidden="true"></i><span class="sr-only">Github Link</span></a>
         </header>
-        <div>
-            <h2>Markup</h3>
+        <div class="body">
+            <h2>Markup</h2>
             <h3>What is a Markup language</h3>
             <p>
                 Markup languages are languages used to represent stuff for computers to process. Thhis page is written in one such mark up language.
@@ -32,10 +38,16 @@
             <h3>Why am I bothering covering Markup languages</h3>
             <p>
                 Markup languages are great for people trying to do maths on the electronics, as it gives a form to said maths that both people and computers can understand
-                <br>
+                <br><br>
                 For example, all the maths on this site that I write are writen in $\LaTeX$, which is a subset of the $\TeX$ markdown language. This allows me to use fancy
-                maths stuff such as $x \in \mathbb{N}$ and ${(\frac{1}{x})}^{x}$  without needing hack it into working.
+                maths stuff such as $x \in \mathbb{N}$ and ${(\frac{1}{x})}^{x}$  without needing hack it into working. Technically I should be using MathML, which is far
+                easier for computers to understand, but is also far harder for humans to use; this is also why you likley saw the Commands for the maths being displayed while
+                the page loaded.
             </p>
         </div>
+        <footer>
+            Made with <i class="fa fa-heart-o fa-fw" aria-hidden="true"></i> and <i class="fa fa-keyboard-o" aria-hidden="true"></i> by shutebt01 and jediminer543
+            (and the help of <i class="fa fa-stack-overflow" aria-hidden="true"></i>). Powered by pure awesome Python server. FLOSS'd under the LGPL.
+        </footer>
     </body>
 </html>

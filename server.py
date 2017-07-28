@@ -37,7 +37,7 @@ def getLocation(name):
         if len(rootdir) <= 1:
             return None
         rootdir = rootdir[1]
-        if rootdir in ["css", "dynamic", "lib", "static"]:
+        if rootdir in ["css", "dynamic", "lib", "static", "js"]:
             # Direct pointer to file
             return name
         elif rootdir in locCache:
@@ -51,6 +51,8 @@ def getLocation(name):
                 locCache[i] = "dynamic"
             for i in os.listdir("lib"):
                 locCache[i] = "lib"
+            for i in os.listdir("js"):
+                locCache[i] = "js"
             for i in os.listdir("static"):
                 locCache[i] = "static"
             if rootdir in locCache:
@@ -127,7 +129,8 @@ class IncomingHandler(BaseHTTPRequestHandler):
                 del tgt
                 if isinstance(response, dict):
                     self.returnData(response["data"], mime=response["datatype"], code=(response["code"] if "code" in response else 200))
-                self.returnData(response[1], mime=response[0], code=(response[2] if len(response) >= 3 else 200))
+                else:
+                    self.returnData(response[1], mime=response[0], code=(response[2] if len(response) >= 3 else 200))
             except Exception as e:
                 traceback.print_exc()
                 self.send_error(500, "Internal Server Error", "Internal server error")
@@ -164,8 +167,11 @@ class IncomingHandler(BaseHTTPRequestHandler):
         elif not os.path.isfile(truePath):
             truePath += "/index.html"
         if truePath.lower().endswith("scss"):
-            css = compileSCSS(truePath)
-            self.returnData(css, "text/css")
+            if "nocompile" in url.query:
+                self.returnFile(truePath, mime="text/x-scss")
+            else:
+                css = compileSCSS(truePath)
+                self.returnData(css, "text/css")
         else:
             self.returnFile(truePath)
 

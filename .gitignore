@@ -105,6 +105,8 @@ ENV/
 /lib/font-awesome-4.7.0.zi*
 /lib/MathJax-2.7.1
 /lib/MathJax-2.7.1.zi*
+/lib/angular-1.6.5
+/lib/angular-1.6.5.zi*
 
 # SCSS cache #
 ##############

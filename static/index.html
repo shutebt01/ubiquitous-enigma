@@ -2,6 +2,8 @@
     <head>
         <title>Symbosite - Home</title>
         <link rel="stylesheet" type="text/css" href="/main.scss">
+        <script type="text/javascript" src="/syntax.js"></script>
+        <!-- Other stuff -->
         <link rel="stylesheet" type="text/css" href="/font-awesome-4.7.0/css/font-awesome.min.css">
         <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
@@ -12,27 +14,62 @@
     </head>
     <body>
         <header>
-            <h2 class="header-elm">Symbosite</h2>
+            <h2 class="header-elm"><a href="/">Symbosite</a></h2>
             <div class="header-elm" style="padding-left:2em"></div>
             <div class="header-elm header-dropdown">
-                <a href="/markup">Markup</a>
+                <h4><a href="/maths">Maths (Beta)</a></h4>
                 <div class="header-dropdown-content">
-                    <a href="/markup/tex.html">$\TeX$</a>
+                    <h5><a href="/maths/equations.html">Equations</a></h5>
+                </div>
+            </div>
+            <div class="header-elm header-dropdown">
+                <h4><a href="/markup">Markup</a></h4>
+                <div class="header-dropdown-content">
+                    <h5><a href="/markup/tex.html">$\TeX$</a></h5>
+                </div>
+            </div>
+            <div class="header-elm header-dropdown">
+               <h4> <a href="/about">About</a></h4>
+                <div class="header-dropdown-content">
+                    <h5><a href="/about/libraries.html">Libraries</a></h5>
                 </div>
             </div>
 
             <a class="header-elm float-right" href="https://github.com/shutebt01/ubiquitous-enigma"><i class="fa fa-github-alt fa-fw fa-2x" aria-hidden="true"></i><span class="sr-only">Github Link</span></a>
         </header>
-        <div>
-            <h3>What the frack this site is</h3>
+        <div class="body">
+            <h2>What is Symbosite</h2>
             <p>
-                This was a site inspired by my use of SymPy, and is intended to assist people in manipulating maths on a computer.
+                Symbosite is a site designed by a us, to make it easier for not-programmers, or just those who don't want to program,
+                to use computational libraries. It also includes help files to assist those who want to learn to use computational libaries.
+                Its name is derived from Symbol, and Site, which should be unsuprising to anyone who is paying attention (which you, good reader
+                probably are).
+                <br><br>
+                This site will be written in a half serious style, including randomly talking to the reader (Hi BTW). The aim of this
+                is to make the content more engaging. And becuase it is a style we can both write in. But we're totally doing it becuase
+                it is easier to read.
+                <br><br>
+                This site consists of two main features: A maths and dataprocessing section, and helpsheets, on both computational stuff and maths.
+                The maths stuff is under construction (I.e. there but hugely broken) whereas the computational stuff like dataprocessing is NYI.
+                <br><br>
+                For the more technically minded people, this site is writen with a frontend of html, which you should have guessed, since your using
+                a browser (I assume; if your some reader from the future viewing this some other way then hi). It is using the default
+                <pre class="inline">http.server</pre> as the backend, albeit with lots of modification.
+                <br><br>
+                If you feel like adding something, pointing out a spelling mistake, or just requesting a feature, don't hesitate to ask on Github.
             </p>
             <h3>Automated syntax highlighting</h3>
             <div>
-                <iframe frameBorder="0" width=250 height=45 scrolling="no" src="/syntax.py?fun=highlight&lang=tex&data=\mathbb{N}"></iframe>
+                <div id="format-dest"></div>
                 Becomes $\mathbb{B}$
+                <script type="text/javascript">
+                    autoSyntax("tex", "\\mathbb{B}", document.getElementById("format-dest"));
+                </script>
             </div>
         </div>
+        <footer>
+            Made with <i class="fa fa-heart-o fa-fw" aria-hidden="true"></i> and <i class="fa fa-keyboard-o" aria-hidden="true"></i> by shutebt01 and jediminer543
+            (and the help of <i class="fa fa-stack-overflow" aria-hidden="true"></i>). Powered by pure awesome Python server. FLOSS'd under the LGPL.
+        </footer>
     </body>
 </html>
