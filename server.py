@@ -83,11 +83,13 @@ class IncomingHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
     def returnData(self, data, mime=None, code=200):
+        if not isinstance(data, bytes):
+            data = data.encode()
         self.send_response(code, "OK")
         if mime:
             self.send_header("Content-Type", mime)
         self.end_headers()
-        self.wfile.write(data.encode())
+        self.wfile.write(data)
 
     def handleDynamicCode(self):
         #get arguments
@@ -176,6 +178,7 @@ class IncomingHandler(BaseHTTPRequestHandler):
             self.returnFile(truePath)
 
     def do_GET(self):
+        #print(self.headers)
         self.processRequest()
         if DEBUG:
             if DEBUG_GC:
